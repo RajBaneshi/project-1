@@ -20,6 +20,6 @@ jobs:
     - name: Build the Docker image
       run: docker build -t project-1 .
     - name: Push to Dockerhub
-    run: docker push RajBaneshi/project-1:latest
+    run: docker push rajendrabaneshi/project-1:latest
       
       
