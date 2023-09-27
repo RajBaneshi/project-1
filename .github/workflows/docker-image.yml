@@ -7,19 +7,18 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
+    - name: login Dockerhub
     env:
     DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
     DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
     run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - name: BUild the Docker image
-      run: docker build . cicd-pipeline .
+    - name: Build the Docker image
+      run: docker build -t cicdpipeline .
     - name: Push to Dockerhub
     run: docker push RajBaneshi/cicd-pipeline:latest
       
