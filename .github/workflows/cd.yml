@@ -1,0 +1,26 @@
+name: Deploy to Docker Hub
+
+on:
+  push:
+    branches:
+      - main  # Adjust this branch name if needed
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # Use your self-hosted runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+    - name: Build Docker Image
+      run: docker build -t project-1 .
+
+    - name: Tag Docker Image
+      run: docker tag project-1 ${{ secrets.DOCKER_HUB_USERNAME }}/project-1:latest
+
+    - name: Push Docker Image to Docker Hub
+      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/project-1:latest
