@@ -1,5 +1,5 @@
-# Use an official Nginx runtime as a parent image
-FROM nginx:alpine
+# Use the official Nginx image as the base image
+FROM nginx:latest
 
-# Copy your HTML files to the Nginx default HTML directory
-COPY . /usr/share/nginx/html
+# Copy your HTML files into the container's web root directory
+COPY ./ /usr/share/nginx/html/
