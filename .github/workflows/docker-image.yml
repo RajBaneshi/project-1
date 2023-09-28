@@ -1,9 +1,9 @@
-name: Deploy to Docker Hub
+name: Deploy to Production
 
 on:
   push:
     branches:
-      - main  # Adjust this branch name if needed
+      - main # Adjust this to your main branch name
 
 jobs:
   build:
@@ -13,14 +13,30 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Login to Docker Hub
+    - name: Build Docker image
+      run: docker build -t project-2:latest .
+
+    - name: Log in to Docker Hub (or your container registry)
       run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-    - name: Build Docker Image
-      run: docker build -t project-1 .
+    - name: Push Docker image
+      run: docker push project-2:latest
 
-    - name: Tag Docker Image
-      run: docker tag project-1 ${{ secrets.DOCKER_HUB_USERNAME }}/project-1:latest
+  deploy:
+    runs-on: ubuntu-latest
 
-    - name: Push Docker Image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/project-1:latest
+    needs: build
+
+    steps:
+    - name: SSH into Production Server
+      uses: appleboy/ssh-action@v0.7.1
+      with:
+        host: ${{ secrets.PRODUCTION_SERVER_HOST }}
+        username: ${{ secrets.PRODUCTION_SERVER_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.PRODUCTION_SERVER_PORT }} # Change to your server's SSH port if needed
+
+    - name: Pull and Run Docker Image
+      run: |
+        docker pull your-image-name:latest
+        docker run -d --name project-2-container -p 80:80 your-image-name:latest
