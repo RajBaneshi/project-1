@@ -20,7 +20,7 @@ jobs:
       run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
 
     - name: Push Docker image
-      run: docker push rajendrabaneshi/project-1:latest
+      run: docker push rajendrabaneshi/project-1
 
   deploy:
     runs-on: ubuntu-latest
