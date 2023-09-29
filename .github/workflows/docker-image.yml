@@ -38,5 +38,5 @@ jobs:
 
     - name: Pull and Run Docker Image
       run: |
-        docker pull your-image-name:latest
-        docker run -d --name project-1-container -p 80:80 your-image-name:latest
+        docker pull project-2:latest
+        docker run -d --name project-2-container -p 80:80 your-image-name:latest
