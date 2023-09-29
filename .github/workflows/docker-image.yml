@@ -14,13 +14,13 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build Docker image
-      run: docker build -t project-1 .
+      run: docker build -t rajendrabaneshi/project-2:latest .
 
     - name: Log in to Docker Hub (or your container registry)
       run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
 
     - name: Push Docker image
-      run: docker push rajendrabaneshi/project-1
+      run: docker push  rajendrabaneshi/project-2:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,5 +38,5 @@ jobs:
 
     - name: Pull and Run Docker Image
       run: |
-        docker pull rajendrabaneshi/project-1
-        docker run -d --name project-1-container -p 80:80 project-1
+        docker pull  rajendrabaneshi/project-2:latest
+        docker run -d --name project-1-container -p 80:80 project-2:latest
